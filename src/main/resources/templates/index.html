@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Form</title>
+</head>
+<body>
+
+<h2>Employee Registration Form</h2>
+
+<form id="employeeForm">
+
+    <label>ID:</label>
+    <input type="text" id="employeeId"><br><br>
+
+    <label>Name:</label>
+    <input type="text" id="name"><br><br>
+
+    <label>Email:</label>
+    <input type="email" id="email"><br><br>
+
+    <label>Location:</label>
+    <input type="text" id="location"><br><br>
+
+    <button type="submit">Save</button>
+
+</form>
+
+<script>
+document.getElementById("employeeForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const employee = {
+        employeeId: document.getElementById("employeeId").value,
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        location: document.getElementById("location").value
+    };
+
+    fetch("/employees", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(employee)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Employee Saved Successfully!");
+        document.getElementById("employeeForm").reset();
+    })
+    .catch(error => console.error("Error:", error));
+});
+</script>
+
+</body>
+</html>
